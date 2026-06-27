@@ -30,6 +30,11 @@ body {
     align-items: center;
 }
 
+.login-image-container>svg {
+    height: 300px;
+    width: 300px;
+}
+
 /* MODALS */
 
 .modal {
@@ -80,6 +85,17 @@ body {
     gap: 20px;
 }
 
+.createComment-modal-content{
+    width: 500px;
+    padding: 20px 30px;
+    background-color: grey;
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 /* FORMS */
 textarea {
     resize: none;
@@ -111,7 +127,7 @@ textarea {
     border-bottom: solid 1px black;
 }
 
-.createPostForm button {
+.createPostForm button, .createCommentForm button {
     padding: 20px;
     background-color: white;
 
@@ -120,11 +136,11 @@ textarea {
     border-radius: 30px;
 }
 
-.createPostForm button:hover {
+.createPostForm button:hover, .createCommentForm button:hover {
     background-color: rgba(255, 255, 255, 0.591);
 }
 
-.createPostForm textarea{
+.createPostForm textarea, .createCommentForm textarea {
     width: 400px;
     padding: 10px;
 
@@ -185,6 +201,24 @@ nav a{
 }
 nav a:hover {
     background-color: grey;
+}
+
+#sidebar nav svg {
+    height: 50px;
+    padding: 0px 20px;
+}
+
+#sidebar nav button {
+    width: 200px;
+    padding: 10px 0px;
+
+    background-color: black;
+    color: white;
+    border: none;
+}
+#sidebar nav button:hover {
+    background-color: grey;
+    border-radius: 5px;
 }
 
 /* RIGHTBAR*/
@@ -324,4 +358,38 @@ nav a:hover {
 .postReactions {
     display: flex;
     gap: 30px;
+}
+
+.liked {
+    background-color: red;
+    color: red;
+}
+
+/* USERS */
+
+.user {
+    margin: 50px 30px;
+    padding: 20px;
+
+    border: 1px solid white;
+    border-radius: 30px;
+
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    font-size: 24px;
+}
+
+.user button { 
+    background-color: inherit;
+    color: white;
+
+    border: none;
+
+    font-size: inherit;
+}
+
+.user button:hover {
+    text-decoration: underline;
 }

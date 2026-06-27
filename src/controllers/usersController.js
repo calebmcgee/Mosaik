@@ -3,8 +3,8 @@ const db = require('../db/queries');
 async function renderUsers(req, res) {
     res.render('users', {
         title: 'Users',
-        user: req.user
-    })
+        users: await db.getAllUsers(req.user.id)
+    });
 }
 
 module.exports = {

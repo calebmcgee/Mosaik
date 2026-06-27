@@ -10,8 +10,15 @@ async function createUser(name, email, password){
 }
 
 //getAllUsers
-async function getAllUsers(){
-    const { rows } = await pool.query(`SELECT * FROM users`);
+async function getAllUsers(currentUser){
+    const { rows } = await pool.query(`
+        SELECT
+            users.id,
+            users.name
+        FROM users
+        WHERE users.id != $1
+        `, [currentUser]
+    );
     return rows;
 }
 
@@ -109,11 +116,48 @@ async function getUserPosts(userId) {
     );
     return rows;
 }
+
+async function getHomePosts(userId) {
+    const { rows } = await pool.query(`
+        SELECT 
+            posts.id,
+            posts.content,
+            posts.created_at,
+
+            users.id AS author_id,
+            users.name AS author_name,
+
+            COUNT(DISTINCT post_likes.user_id)::int AS like_count,
+            COUNT(DISTINCT comments.id)::int AS comment_count,
+
+            (user_like.user_id IS NOT NULL) AS liked
+        FROM posts
+        JOIN users
+            ON posts.author = users.id
+        LEFT JOIN post_likes
+            ON posts.id = post_likes.post_id
+        LEFT JOIN comments
+            ON posts.id = comments.post
+        LEFT JOIN post_likes user_like
+            ON posts.id = user_like.post_id
+            AND user_like.user_id = $1
+        GROUP BY 
+            posts.id,
+            posts.content,
+            posts.created_at,
+            users.id,
+            users.name,
+            user_like.user_id
+
+        ORDER BY posts.created_at DESC`, [userId]);
+
+    return rows;
+}
 /* LIKES */
 
 async function togglePostLike(userId, postId){
     const deleted = await pool.query(`
-        DELETE post_likes
+        DELETE FROM post_likes
         WHERE user_id = $1
         AND post_id = $2`, [userId, postId]
     );
@@ -142,6 +186,10 @@ async function getPostComments(postId) {
     return rows;
 }
 
+async function createComment(userId, postId, content) {
+    await pool.query(`INSERT INTO comments(author, post, content) VALUES ($1, $2, $3)`, [userId, postId, content]
+    );
+}
 module.exports = {
     createUser,
     getAllUsers,
@@ -155,7 +203,9 @@ module.exports = {
     deletePost,
     getAllPosts,
     getUserPosts,
+    getHomePosts,
     togglePostLike,
     getPostLikes,
-    getPostComments
+    getPostComments,
+    createComment
 }

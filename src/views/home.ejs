@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles.css">
-
+    <script src="https://kit.fontawesome.com/ecf0edc0d5.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="container">
@@ -17,15 +17,36 @@
                     <div>PFP</div>
                     <div class="postInfo">
                         <div class="postHeader">
-                            <p><%= post.author.name %></p>
-                            <p>Username * <%= post.date%></p>
+                            <p><%= post.author_name %></p>
+                            <p>Username * <%= new Date(post.created_at).toLocaleDateString();%></p>
                         </div>
                         <div class="postContent">
                             <p><%= post.content %></p>
                         </div>
                         <div class="postReactions">
-                            <p>Likes: <%= post.likeCount %></p>
-                            <p>Comments: <%= post.commentCount %></p>
+                            <form action="/home/<%= post.id %>/toggleLike" class="liked" method="POST">
+                                <button type="submit"><i class="fa-regular fa-heart"></i> <%= post.like_count %></button>
+                            </form>
+                            <button onclick="openCreateComment()"><i class="fa-solid fa-comment"></i> <%= post.comment_count %></button>
+                            <!-- Create Post Modal -->
+                            <div id="createCommentModal" class="modal hidden" >
+                                <div class="createComment-modal-content">
+                                    <div class="modal-header">
+                                        <button onclick="closeCommentModal()">Close</button>
+                                        <h2>Create Post</h2>
+                                    </div>
+                                    <form action="/home/comment" method="POST" class="createCommentForm">
+                                        <div class="createLabelDiv">
+                                            <label for="content"><%= currentUser.name %></label>
+                                            <textarea name="content" id="content" placeholder="Comment"></textarea>
+                                        </div>
+
+                                        <button type="submit">Post</button>
+                                    </form>
+                                    <%- include('partials/errors'); %>
+                                </div>
+                            </div>
+                            <!---->
                         </div>
                     </div>
                 </div>
@@ -33,7 +54,20 @@
         </div>
         <%- include('partials/rightbar') %>
     </div>
+        <script>
+        const commentModal = document.querySelector("#createCommentModal");
+        const likeForm = document.querySelector("#likeForm");
 
-    
+        function closeCommentModal() {
+            commentModal.classList.add("hidden");
+        }
+
+        function openCreateComment() {
+            closeCommentModal();
+            commentModal.classList.remove("hidden");
+        }
+
+
+    </script>
 </body>
 </html>
