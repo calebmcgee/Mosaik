@@ -12,9 +12,9 @@
         <%- include('partials/sidebar') %>
         <div class="middle" id="profile-content">
             <div id="profile-bar">
-                <div>Back</div>
-                <div>C</div>
-                <div>Search</div>
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
             <div id="profile-banner">
 
@@ -41,10 +41,46 @@
             </div>
             <div id="profile-nav">
                 <div><a href="/profile">Posts</a></div>
-                <div><a href="/profile">Replies</a></div>
-                <div><a href="/profile">Media</a></div>
-                <div><a href="/profile">Likes</a></div>
             </div>
+            <% userPosts.forEach(post => { %>
+                <div class="post">
+                    <div>PFP</div>
+                    <div class="postInfo">
+                        <div class="postHeader">
+                            <p><%= post.author_name %></p>
+                            <p>Username * <%= new Date(post.created_at).toLocaleDateString();%></p>
+                        </div>
+                        <div class="postContent">
+                            <p><%= post.content %></p>
+                        </div>
+                        <div class="postReactions">
+                            <form action="/home/<%= post.id %>/toggleLike" class="liked" method="POST">
+                                <button type="submit"><i class="fa-regular fa-heart"></i> <%= post.like_count %></button>
+                            </form>
+                            <button onclick="openCreateComment()"><i class="fa-solid fa-comment"></i> <%= post.comment_count %></button>
+                            <!-- Create Post Modal -->
+                            <div id="createCommentModal" class="modal hidden" >
+                                <div class="createComment-modal-content">
+                                    <div class="modal-header">
+                                        <button onclick="closeCommentModal()">Close</button>
+                                        <h2>Create Post</h2>
+                                    </div>
+                                    <form action="/home/comment" method="POST" class="createCommentForm">
+                                        <div class="createLabelDiv">
+                                            <label for="content"><%= currentUser.name %></label>
+                                            <textarea name="content" id="content" placeholder="Comment"></textarea>
+                                        </div>
+
+                                        <button type="submit">Post</button>
+                                    </form>
+                                    <%- include('partials/errors'); %>
+                                </div>
+                            </div>
+                            <!---->
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
         </div>
         <%- include('partials/rightbar') %>
     </div>

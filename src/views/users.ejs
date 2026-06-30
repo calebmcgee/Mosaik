@@ -13,12 +13,13 @@
         <div class="middle" id="users-content">
             <h1><%= title %></h1>
             <% for(const user of users){ %>
-                <form class="user" action="/users/:<%= user.id %>" method="GET">
+                <form class="user" action="/users/<%= user.id %>" method="GET">
                     <p>PFP</p>
                     <button type="submit"><%= user.name %></button>
                 </form>
             <% }; %>
         </div>
+        
         <%- include('partials/rightbar') %>
     </div>
 
