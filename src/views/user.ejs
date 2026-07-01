@@ -22,8 +22,8 @@
             <div id="profile-info">
                 <div>
                     <p></p>
-                    <form action="/">
-                        <button>Follow</button>
+                    <form action="/users/<%= user.id %>/toggleFollow">
+                        <button type="submit">Follow</button>
                     </form>
                 </div>
                 <div id="profile-identity">
@@ -32,11 +32,11 @@
                 </div>
                 <div id="profile-following">
                     <a href="">
-                        <span>0</span>
+                        <span><%= user.following_count %></span>
                         <span>Following</span>
                     </a>
                     <a href="">
-                        <span>0</span>
+                        <span><%= user.follower_count %></span>
                         <span>Followers</span>
                     </a>
                 </div>

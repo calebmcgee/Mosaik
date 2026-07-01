@@ -40,6 +40,32 @@ async function getUserById(id) {
     return rows[0];
 }
 
+async function getUserInfo(id) { 
+    const { rows } = await pool.query(`
+        SELECT
+            users.id,
+            users.name,
+            
+            COUNT(DISTINCT followers.user_id)::int AS follower_count,
+            COUNT(DISTINCT following.following_id)::int AS following_count,
+
+            COUNT(DISTINCT posts.id)::int AS post_count
+        FROM users
+        LEFT JOIN user_following following
+            ON users.id = following.user_id
+        LEFT JOIN user_following followers
+            ON users.id = followers.following_id
+        LEFT JOIN posts
+            ON users.id = posts.author
+        WHERE users.id = $1
+        GROUP BY
+            users.id,
+            users.name`,[id]
+    );
+
+    return rows[0];
+}
+
 /*editUser
 
 async function editUser(id, email, password) {
@@ -84,6 +110,20 @@ async function getFollowers(userId) {
         followersList.push(row.user_id)
     }
     return followersList;
+}
+
+async function toggleFollow(userId, followingId){
+    const deleted = await pool.query(`
+        DELETE FROM user_following
+        WHERE user_id = $1
+        AND following_id = $2`, [userId, followingId]
+    );
+
+    if(deleted.rowCount === 0){
+        await pool.query(`
+            INSERT INTO user_following(user_id, following_id) VALUES ($1, $2)`, [userId, followingId]
+        );
+    }
 }
 
 /* POSTS */
@@ -195,10 +235,12 @@ module.exports = {
     getAllUsers,
     getUser,
     getUserById,
+    getUserInfo,
     followUser,
     unfollowUser,
     getFollowers,
     getFollowing,
+    toggleFollow,
     createPost,
     deletePost,
     getAllPosts,
