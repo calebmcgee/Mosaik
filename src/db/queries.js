@@ -151,8 +151,39 @@ async function getAllPosts(){
 
 async function getUserPosts(userId) {
     const { rows } = await pool.query(`
-        SELECT * FROM posts
-        WHERE author = $1`, [userId]
+        SELECT 
+            posts.id,
+            posts.content,
+            posts.created_at,
+
+            users.id AS author_id,
+            users.name AS author_name,
+
+            COUNT(DISTINCT post_likes.user_id)::int AS like_count,
+            COUNT(DISTINCT comments.id)::int AS comment_count,
+
+            (user_like.user_id IS NOT NULL) AS liked
+        FROM posts
+        JOIN users
+            ON users.id = posts.author
+        LEFT JOIN post_likes
+            ON posts.id = post_likes.post_id
+        LEFT JOIN comments
+            ON posts.id = comments.post
+        LEFT JOIN post_likes user_like
+            ON posts.id = user_like.post_id
+            AND users.id = user_like.user_id
+        WHERE
+            users.id = $1
+        GROUP BY 
+            posts.id,
+            posts.content,
+            posts.created_at,
+            users.id,
+            users.name,
+            user_like.user_id
+
+        ORDER BY posts.created_at DESC`, [userId]
     );
     return rows;
 }

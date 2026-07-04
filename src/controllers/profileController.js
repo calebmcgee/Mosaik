@@ -4,7 +4,7 @@ const { body, validationResult, matchedData } = require('express-validator');
 async function renderProfile(req, res){
     res.render('profile', { 
         title: 'profile',
-        user : req.user,
+        user : await db.getUserInfo(req.user.id),
         userPosts: await db.getUserPosts(req.user.id)
     });
 }   
