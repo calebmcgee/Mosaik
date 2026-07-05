@@ -1,4 +1,5 @@
 const pool = require('./pool');
+const gravatar = require(`gravatar`);
 
 /* USERS */
 //createUser
@@ -14,12 +15,21 @@ async function getAllUsers(currentUser){
     const { rows } = await pool.query(`
         SELECT
             users.id,
-            users.name
+            users.name,
+            users.email
         FROM users
         WHERE users.id != $1
         `, [currentUser]
     );
-    return rows;
+
+    const users = rows;
+    for (const user of users){
+        user.avatar = gravatar.url(user.email, {
+            d: "identicon"
+        });
+    }
+
+    return users;
 }
 
 //getUser
@@ -28,7 +38,13 @@ async function getUser(email){
         SELECT * FROM users 
         WHERE email = $1`, [email]
     );
-    return rows[0];
+
+    const user = rows[0];
+    user.avatar = gravatar.url(user.email, {
+        d: "identicon"
+    });
+
+    return user;
 }
 
 //getUserById
@@ -37,7 +53,13 @@ async function getUserById(id) {
         SELECT * FROM users 
         WHERE id = $1`, [id]
     );
-    return rows[0];
+
+    const user = rows[0];
+    user.avatar = gravatar.url(user.email, {
+        d: "identicon"
+    });
+
+    return user;
 }
 
 async function getUserInfo(id) { 
@@ -45,6 +67,7 @@ async function getUserInfo(id) {
         SELECT
             users.id,
             users.name,
+            users.email,
             
             COUNT(DISTINCT followers.user_id)::int AS follower_count,
             COUNT(DISTINCT following.following_id)::int AS following_count,
@@ -63,7 +86,12 @@ async function getUserInfo(id) {
             users.name`,[id]
     );
 
-    return rows[0];
+    const user = rows[0];
+    user.avatar = gravatar.url(user.email, {
+        d: "identicon"
+    });
+
+    return user;
 }
 
 /*editUser
@@ -197,6 +225,7 @@ async function getHomePosts(userId) {
 
             users.id AS author_id,
             users.name AS author_name,
+            users.email AS author_email,
 
             COUNT(DISTINCT post_likes.user_id)::int AS like_count,
             COUNT(DISTINCT comments.id)::int AS comment_count,
@@ -220,9 +249,18 @@ async function getHomePosts(userId) {
             users.name,
             user_like.user_id
 
-        ORDER BY posts.created_at DESC`, [userId]);
+        ORDER BY posts.created_at DESC`, [userId]
+    );
 
-    return rows;
+    const posts = rows;
+    for (const post of posts){
+        post.author_avatar = gravatar.url(post.author_email, {
+            d: "identicon"
+        });
+    }
+
+    return posts;
+
 }
 /* LIKES */
 

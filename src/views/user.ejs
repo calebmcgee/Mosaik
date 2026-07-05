@@ -46,7 +46,7 @@
             </div>
             <% userPosts.forEach(post => { %>
                 <div class="post">
-                    <div>PFP</div>
+                    <div><img class="avatar" src="<%= user.avatar %>" alt="PFP"></div>
                     <div class="postInfo">
                         <div class="postHeader">
                             <p><%= post.author_name %></p>

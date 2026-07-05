@@ -395,3 +395,12 @@ nav a:hover {
 .user button:hover {
     text-decoration: underline;
 }
+
+/* PROFILE PICTURE */
+
+.avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+    
+}

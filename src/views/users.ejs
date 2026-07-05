@@ -14,12 +14,12 @@
             <h1><%= title %></h1>
             <% for(const user of users){ %>
                 <form class="user" action="/users/<%= user.id %>" method="GET">
-                    <p>PFP</p>
+                    <div><img class="avatar" src="<%= user.avatar %>" alt="PFP"></div>
                     <button type="submit"><%= user.name %></button>
                 </form>
             <% }; %>
         </div>
-        
+
         <%- include('partials/rightbar') %>
     </div>
 
