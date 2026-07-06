@@ -9,6 +9,11 @@ body {
     background-color: black;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* LOGIN */
 
 .login-container {
@@ -246,7 +251,7 @@ nav a:hover {
     width: 100%;
     color:white;
 }
-.middle>h1{
+.middle>h1 {
     background-color: rgba(30, 30, 30, 0.912);
     padding: 10px 0px;
     position: sticky;
@@ -255,6 +260,16 @@ nav a:hover {
 
     border-bottom: 1px solid white;
     text-align: center;
+}
+
+.middle>a>h1 {
+    background-color: rgba(30, 30, 30, 0.912);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0px;
+
+
+    border-bottom: 1px solid white;
 }
 /* PROFILE */
 #profile-content {
@@ -342,6 +357,10 @@ nav a:hover {
     border-bottom: 1px solid white;
 }
 
+.postInfo {
+    flex: 1;
+}
+
 .post:hover{
     background-color: rgb(30, 30, 30);
 }
@@ -360,8 +379,13 @@ nav a:hover {
     gap: 30px;
 }
 
+.likeButton, .commentButton {
+    background-color: inherit;
+    border: none;
+    color: white;
+}
+
 .liked {
-    background-color: red;
     color: red;
 }
 
@@ -403,4 +427,32 @@ nav a:hover {
     width: 50px;
     border-radius: 10px;
     
+}
+
+/* COMMENTS */
+
+.comment {
+    padding: 20px 20px;
+    display: flex; 
+    gap: 20px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+.comment:hover{
+    background-color: rgb(30, 30, 30);
+}
+
+.commentHeader {
+    display: flex;
+    gap: 10px;
+}
+
+.commentContent {
+    margin: 50px 0px;
+}
+
+.commentReactions {
+    display: flex;
+    gap: 30px;
 }

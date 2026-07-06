@@ -177,6 +177,51 @@ async function getAllPosts(){
     return rows;
 }
 
+async function getPost(postId, currentUser) {
+    const { rows } = await pool.query(`
+        SELECT
+            posts.id,
+            posts.content,
+            posts.created_at,
+
+            users.id AS author_id,
+            users.name AS author_name,
+            users.email AS author_email,
+
+            COUNT(DISTINCT post_likes.user_id)::int AS like_count,
+            COUNT(DISTINCT comments.id)::int AS comment_count,
+
+            (user_like.user_id IS NOT NULL) AS liked
+        FROM posts
+        JOIN users
+            ON users.id = posts.author
+        LEFT JOIN post_likes
+            ON posts.id = post_likes.post_id
+        LEFT JOIN comments
+            ON posts.id = comments.post
+        LEFT JOIN post_likes user_like
+            ON posts.id = user_like.post_id
+            AND $2 = user_like.user_id
+        WHERE
+            posts.id = $1 
+        GROUP BY 
+            posts.id,
+            posts.content,
+            posts.created_at,
+            users.id,
+            users.name,
+            users.email,
+            user_like.user_id`,[postId, currentUser]
+    );
+
+    const post = rows[0];
+    post.author_avatar = gravatar.url(post.author_email, {
+        d: "identicon"
+    });
+
+    return post;
+}
+
 async function getUserPosts(userId) {
     const { rows } = await pool.query(`
         SELECT 
@@ -186,6 +231,7 @@ async function getUserPosts(userId) {
 
             users.id AS author_id,
             users.name AS author_name,
+            users.email AS author_email,
 
             COUNT(DISTINCT post_likes.user_id)::int AS like_count,
             COUNT(DISTINCT comments.id)::int AS comment_count,
@@ -209,11 +255,20 @@ async function getUserPosts(userId) {
             posts.created_at,
             users.id,
             users.name,
+            users.email,
             user_like.user_id
 
         ORDER BY posts.created_at DESC`, [userId]
     );
-    return rows;
+
+    const posts = rows;
+    for (const post of posts){
+        post.author_avatar = gravatar.url(post.author_email, {
+            d: "identicon"
+        });
+    }
+
+    return posts;
 }
 
 async function getHomePosts(userId) {
@@ -247,6 +302,7 @@ async function getHomePosts(userId) {
             posts.created_at,
             users.id,
             users.name,
+            users.email,
             user_like.user_id
 
         ORDER BY posts.created_at DESC`, [userId]
@@ -287,18 +343,61 @@ async function getPostLikes(postId) {
 }
 
 /* COMMENTS */
-async function getPostComments(postId) {
-    const { rows } = pool.query(`
-        SELECT * FROM comments 
-        WHERE post = $1`, [postId]
-    )
-    return rows;
-}
 
 async function createComment(userId, postId, content) {
     await pool.query(`INSERT INTO comments(author, post, content) VALUES ($1, $2, $3)`, [userId, postId, content]
     );
 }
+
+async function getPostComments(postId, currentUser) {
+    const { rows } = await pool.query(`
+        SELECT
+            comments.id,
+            comments.post,
+            comments.author,
+            comments.content,
+            comments.created_at,
+
+            users.id AS author_id,
+            users.name AS author_name,
+            users.email AS author_email,
+
+            COUNT(DISTINCT comment_likes.user_id)::int AS like_count,
+
+            (user_like.user_id IS NOT NULL) AS liked
+        FROM comments
+        JOIN users
+            ON comments.author = users.id
+        LEFT JOIN comment_likes
+            ON comments.id = comment_likes.comment_id
+        LEFT JOIN comment_likes user_like
+            ON comments.id = user_like.comment_id
+            AND $2 = user_like.user_id
+        WHERE
+            comments.post = $1 
+        GROUP BY 
+            comments.id,
+            comments.post,
+            comments.author,
+            comments.content,
+            comments.created_at,
+            users.id,
+            users.name,
+            users.email,
+            user_like.user_id`, [postId, currentUser]
+    );
+
+    const comments = rows;
+    for (const comment of comments){
+        comment.author_avatar = gravatar.url(comment.author_email, {
+            d: "identicon"
+        });
+    }
+
+    return comments;
+
+}
+
 module.exports = {
     createUser,
     getAllUsers,
@@ -315,6 +414,7 @@ module.exports = {
     getAllPosts,
     getUserPosts,
     getHomePosts,
+    getPost,
     togglePostLike,
     getPostLikes,
     getPostComments,

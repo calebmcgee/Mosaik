@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://kit.fontawesome.com/ecf0edc0d5.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <%- include('partials/sidebar') %>
+        <div class="middle" id="home-content">
+            <a href="/home">
+                <h1>Back</h1>
+            </a>
+            <div class="post">
+                <div><img class="avatar" src="<%= post.author_avatar %>" alt="PFP"></div>
+                <div class="postInfo">
+                    <div class="postHeader">
+                        <p><%= post.author_name %></p>
+                        <p>Username * <%= new Date(post.created_at).toLocaleDateString();%></p>
+                    </div>
+                    <div class="postContent">
+                        <p><%= post.content %></p>
+                    </div>
+                    <div class="postReactions">
+                        <div><i class="fa-solid fa-heart"></i> <%= post.like_count %></div>
+                        <div><i class="fa-solid fa-comment"></i> <%= post.comment_count %></div>
+                    </div>
+                </div>
+            </div>
+            <h1>Comments</h1>
+            <div class="comments">
+                <% for(const comment of comments) { %>
+                    <div class="comment">
+                        <div><img class="avatar" src="<%= comment.author_avatar %>" alt="PFP"></div>
+                        <div class="commentInfo">
+                            <div class="commentHeader">
+                                <p><%= comment.author_name %></p>
+                                <p>Username * <%= new Date(comment.created_at).toLocaleDateString();%></p>
+                            </div>
+                            <div class="commentContent">
+                                <p><%= comment.content %></p>
+                            </div>
+                            <div class="commentReactions">
+                                <div><i class="fa-regular fa-heart"></i> <%= comment.like_count %></div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+        <%- include('partials/rightbar') %>
+    </div>
+</body>
+</html>

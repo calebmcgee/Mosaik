@@ -16,13 +16,10 @@
                 <div></div>
                 <div></div>
             </div>
-            <div id="profile-banner">
-
-            </div>
             <div id="profile-info">
                 <div>
                     <img class="avatar" src="<%= user.avatar %>" alt="PFP">
-                    <p>Edit Profile</p>
+                    <p></p>
                 </div>
                 <div id="profile-identity">
                     <p><%= user.name %></p>
@@ -55,9 +52,9 @@
                         </div>
                         <div class="postReactions">
                             <form action="/home/<%= post.id %>/toggleLike" class="liked" method="POST">
-                                <button type="submit"><i class="fa-regular fa-heart"></i> <%= post.like_count %></button>
+                                <button type="submit" class="likeButton"><i class="fa-solid fa-heart"></i> <%= post.like_count %></button>
                             </form>
-                            <button onclick="openCreateComment()"><i class="fa-solid fa-comment"></i> <%= post.comment_count %></button>
+                            <button onclick="openCreateComment()" class="commentButton"><i class="fa-solid fa-comment"></i> <%= post.comment_count %></button>
                             <!-- Create Post Modal -->
                             <div id="createCommentModal" class="modal hidden" >
                                 <div class="createComment-modal-content">

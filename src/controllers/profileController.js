@@ -9,24 +9,26 @@ async function renderProfile(req, res){
     });
 }   
 
-const createPostValidator= [
+const validatePost = [
     body('content').trim()
     .notEmpty().withMessage('Content cannot be empty.')
 ];
 
 const createPost = [
-    createPostValidator,
+    validatePost,
     async (req, res) => {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
-            return res.status(400).render('profile', {
-                title: 'profile',
-                erros: errors.array()
+            return res.status(400).render('home', {
+                title: 'Home',
+                user: req.user,
+                posts: await db.getHomePosts(req.user.id),
+                errors: errors.array()
             });
         }
         const { content } = matchedData(req);
         await db.createPost(req.user.id, content);
-        res.redirect("/profile");
+        res.redirect("/home");
 }];
 
 module.exports = {

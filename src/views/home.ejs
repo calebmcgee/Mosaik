@@ -14,34 +14,35 @@
             <h1><%= title %></h1>
             <% posts.forEach(post => { %>
                 <div class="post">
-                    <div><img class="avatar" src="<%= post.author_avatar %>" alt="PFP"></div>
                     <div class="postInfo">
-                        <div class="postHeader">
-                            <p><%= post.author_name %></p>
-                            <p>Username * <%= new Date(post.created_at).toLocaleDateString();%></p>
-                        </div>
-                        <div class="postContent">
-                            <p><%= post.content %></p>
-                        </div>
+                        <a href="/home/posts/<%= post.id %>">
+                            <div class="postHeader">
+                                <div><img class="avatar" src="<%= post.author_avatar %>" alt="PFP"></div>
+                                <p><%= post.author_name %></p>
+                                <p>Username * <%= new Date(post.created_at).toLocaleDateString();%></p>
+                            </div>
+                            <div class="postContent">
+                                <p><%= post.content %></p>
+                            </div>
+                        </a>
                         <div class="postReactions">
-                            <form action="/home/<%= post.id %>/toggleLike" class="liked" method="POST">
-                                <button type="submit"><i class="fa-regular fa-heart"></i> <%= post.like_count %></button>
+                            <form action="/home/<%= post.id %>/toggleLike" method="POST">
+                                <button type="submit" class="likeButton"><i class="fa-solid fa-heart <%= post.liked ? 'liked': '' %>"></i> <%= post.like_count %></button>
                             </form>
-                            <button onclick="openCreateComment()"><i class="fa-solid fa-comment"></i> <%= post.comment_count %></button>
-                            <!-- Create Post Modal -->
-                            <div id="createCommentModal" class="modal hidden" >
+                            <button class="commentButton" onclick="openCreateComment(<%= post.id %>)"><i class="fa-solid fa-comment"></i> <%= post.comment_count %></button>
+                            <!-- Create Comment Modal -->
+                            <div id="createCommentModal-<%= post.id %>" class="modal hidden" >
                                 <div class="createComment-modal-content">
                                     <div class="modal-header">
-                                        <button onclick="closeCommentModal()">Close</button>
-                                        <h2>Create Post</h2>
+                                        <button onclick="closeCommentModal(<%= post.id %>)">Close</button>
+                                        <h2>Create Comment</h2>
                                     </div>
-                                    <form action="/home/comment" method="POST" class="createCommentForm">
+                                    <form action="/home/posts/<%= post.id %>/postComment" method="POST" class="createCommentForm">
                                         <div class="createLabelDiv">
                                             <label for="content"><%= currentUser.name %></label>
                                             <textarea name="content" id="content" placeholder="Comment"></textarea>
                                         </div>
-
-                                        <button type="submit">Post</button>
+                                        <button type="submit">Post Comment</button>
                                     </form>
                                     <%- include('partials/errors'); %>
                                 </div>
@@ -54,20 +55,16 @@
         </div>
         <%- include('partials/rightbar') %>
     </div>
-        <script>
-        const commentModal = document.querySelector("#createCommentModal");
-        const likeForm = document.querySelector("#likeForm");
-
-        function closeCommentModal() {
-            commentModal.classList.add("hidden");
+    <script>
+        function closeCommentModal(postId) {
+            const modal = document.getElementById(`createCommentModal-${postId}`);
+            modal.classList.add("hidden");
         }
 
-        function openCreateComment() {
-            closeCommentModal();
-            commentModal.classList.remove("hidden");
+        function openCreateComment(postId) {
+            const modal = document.getElementById(`createCommentModal-${postId}`);
+            modal.classList.remove("hidden");
         }
-
-
     </script>
 </body>
 </html>
