@@ -1,0 +1,15 @@
+.feed {
+    background-color: black;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.feed li {
+    background-color: white;
+}
+
+.feed-bottom {
+    text-align: center;
+}

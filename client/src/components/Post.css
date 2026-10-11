@@ -1,0 +1,27 @@
+.post {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+
+.avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+}
+
+
+.post-header{
+    display: flex;
+    gap: 20px;
+
+}
+
+.post-content {
+    padding: 10px 0px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-around;
+}

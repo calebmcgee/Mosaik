@@ -1,0 +1,30 @@
+.navbar ul{
+    list-style-type: none;
+
+    height: 100%;
+    position:sticky;
+    top: 0;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+
+.navbar a {
+    display: block;
+    padding: 30px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.navbar a:hover {
+    background-color: grey;
+}
+
+.navbar {
+    width: 1fr;
+}
