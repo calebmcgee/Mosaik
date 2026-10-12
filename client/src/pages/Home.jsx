@@ -2,7 +2,6 @@
 import AppLayout from '../layouts/AppLayout'
 import './Home.css'
 import Feed from '../components/Feed'
-//import Post from '../components/Post'
 
 function Home() {
     const posts = [
@@ -14,12 +13,10 @@ function Home() {
     ];
 
     return (
-        <div className='page-container'>
-            <AppLayout>
-                <Feed posts={posts}/>
-            </AppLayout>
-        </div>
+        <AppLayout>
+            <Feed posts={posts}/>
+        </AppLayout>
     )
 }
 
-export default Home
+export default Home;

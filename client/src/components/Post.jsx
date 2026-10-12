@@ -4,7 +4,7 @@ function Post({ post }){
     return (
             <div className="post">
                 <div>
-                    <img className="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeovjod_04Sdg1IteBevxVDjznQFdFP8YlU8znE2wjDQ&s=10" alt="PFP"></img>
+                    <img className="post-avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeovjod_04Sdg1IteBevxVDjznQFdFP8YlU8znE2wjDQ&s=10" alt="PFP"></img>
                 </div>
                 <div>
                     <div className="post-header">

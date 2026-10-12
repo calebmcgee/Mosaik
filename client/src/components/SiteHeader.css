@@ -2,6 +2,6 @@ header {
     background-color: white;
     height: 5vh;
     width: 100vw;
-    margin-bottom: 2px;
+    border-bottom: 2px solid black;
     position: sticky;
 }

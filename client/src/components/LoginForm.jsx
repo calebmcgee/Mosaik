@@ -2,8 +2,12 @@ import './LoginForm.css'
 
 function LoginForm() {
     
+    function handleSubmit() {
+
+    }
+
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <h2>Login</h2>
 
             <label for="email">Email

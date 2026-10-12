@@ -1,0 +1,29 @@
+.user-profile-avatar {
+    margin: 0px 10px;
+    height: 150px;
+    width: 150px;
+    border-radius: 10px;
+}
+
+.user-profile {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile-footer {
+    display: flex;
+    gap: 20px;
+    
+}
+
+.user-profile-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid black;
+}
+
+.user-profile-navbar:hover {
+    background-color: grey;
+}

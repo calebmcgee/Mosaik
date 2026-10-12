@@ -1,4 +1,5 @@
 .app-layout {
+    background-color: black;
     display: grid;
     grid-template-columns: 300px 1fr 240px;
     height: 95vh;

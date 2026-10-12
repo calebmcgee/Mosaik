@@ -1,4 +1,4 @@
-.page-container { 
+.login-page-container { 
     height: 100vh;
     background-color: black;
 
@@ -8,11 +8,11 @@
 
 }
 
-.page-container > * {
+.login-page-container > * {
     background-color: white;
 }
 
-.form-container {
+.login-page-form-container {
     padding: 100px;
 
     display: flex;

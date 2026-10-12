@@ -10,8 +10,8 @@ function LoginPage() {
         setIsLogin(!isLogin);
     }
     return (
-        <div className='page-container'>
-            <div className='form-container'>
+        <div className='login-page-container'>
+            <div className='login-page-form-container'>
                 {isLogin ? <LoginForm /> : <SignUpForm />}
 
                 <span>

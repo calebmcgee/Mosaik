@@ -1,11 +1,14 @@
-//import Home from './pages/Home.jsx'
+import { useState } from 'react';
+
+import Home from './pages/Home.jsx'
 import LoginPage from './pages/LoginPage.jsx'
+import UserProfile from './pages/UserProfile.jsx';
+
 function App() {
 
-
     return (
-        <LoginPage />
+        <UserProfile />
     )
 }
 
-export default App
+export default App;

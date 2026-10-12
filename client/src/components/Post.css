@@ -4,7 +4,7 @@
     grid-template-columns: 100px 1fr;
 }
 
-.avatar {
+.post-avatar {
     height: 50px;
     width: 50px;
     border-radius: 10px;
