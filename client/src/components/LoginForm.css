@@ -1,0 +1,26 @@
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+input {
+    padding: 5px 0px;
+    border: none;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    
+
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}

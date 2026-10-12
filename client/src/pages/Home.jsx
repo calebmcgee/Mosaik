@@ -1,6 +1,6 @@
 //import { useState } from 'react'
 import AppLayout from '../layouts/AppLayout'
-import './Pages.css'
+import './Home.css'
 import Feed from '../components/Feed'
 //import Post from '../components/Post'
 
@@ -14,7 +14,7 @@ function Home() {
     ];
 
     return (
-        <div className='page'>
+        <div className='page-container'>
             <AppLayout>
                 <Feed posts={posts}/>
             </AppLayout>

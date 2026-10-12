@@ -3,7 +3,7 @@ import './SiteHeader.css'
 function SiteHeader(){
     return (
         <header>
-            <h1>NOT X</h1>
+            <h1>Mosaik</h1>
         </header>
     )
 }

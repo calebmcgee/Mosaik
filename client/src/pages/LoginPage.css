@@ -1,0 +1,23 @@
+.page-container { 
+    height: 100vh;
+    background-color: black;
+
+    display: grid;
+    grid-template-columns: 600px 1fr;
+    gap: 2px;
+
+}
+
+.page-container > * {
+    background-color: white;
+}
+
+.form-container {
+    padding: 100px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
