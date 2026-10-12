@@ -13,8 +13,7 @@
 
 .user-profile-footer {
     display: flex;
-    gap: 20px;
-    
+    gap: 20px; 
 }
 
 .user-profile-navbar {
@@ -22,6 +21,7 @@
     justify-content: center;
     align-items: center;
     border-bottom: 2px solid black;
+    padding: 10px 0px;
 }
 
 .user-profile-navbar:hover {

@@ -1,7 +1,7 @@
 import './Feed.css'
 import Post from './Post.jsx'
 function Feed({ posts }){
-    const postList = posts.map(post =><li><Post key={post.id} post={post}/></li>)
+    const postList = posts.map(post =><li key={post.id}><Post post={post}/></li>)
     return (
         <ul className='feed'>
             {postList}
